@@ -1,4 +1,4 @@
-var port = 8080,
+var port = 5000,
 	WebSocketServer = require('ws').Server,
 	wss = new WebSocketServer({ port: port });
 
@@ -9,11 +9,11 @@ wss.on('connection', function connection(ws) {
 	ws.on('message', function(message) {
 
 		console.log('message: ' + message);
-		ws.send('echo: ' + message);
+		ws.send(message);
 
 	});
 
 	console.log('new client connected!');
-	ws.send('connected!');
+	// ws.send('connected!');
 
 });
