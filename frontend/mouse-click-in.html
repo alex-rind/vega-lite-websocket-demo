@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+
+<body>
+  <h1>Hello World</h1>
+  <div id="vis"></div>
+  <button id="my_button" type="button">click</button>
+
+  <script>
+    const spec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+      description: "A simple bar chart with embedded data.",
+      data: {
+        name: "table",
+        values: [
+          { a: "A", b: 28 },
+          { a: "B", b: 55 },
+          { a: "C", b: 43 },
+          { a: "D", b: 91 },
+          { a: "E", b: 81 },
+          { a: "F", b: 53 },
+          { a: "G", b: 19 },
+          { a: "H", b: 87 },
+          { a: "I", b: 52 },
+        ],
+      },
+      mark: "bar",
+      encoding: {
+        x: { field: "a", type: "nominal", axis: { labelAngle: 0 } },
+        y: { field: "b", type: "quantitative" },
+      },
+    };
+    console.log(spec);
+
+    const button = document.getElementById("my_button");
+    let letter = vegaEmbed("#vis", spec)
+      .then(function (result) {
+        const view = result.view;
+        button.onclick = function () {
+          const randomCharacter = "abcdefghijklmnopqrstuvwxyz"[
+            Math.floor(Math.random() * 26)
+          ];
+          console.log("insert", randomCharacter);
+          const newItems = [{ a: randomCharacter, b: 42 }];
+          view.insert("table", newItems).run();
+        };
+      })
+      .catch(console.warn);
+  </script>
+</body>
